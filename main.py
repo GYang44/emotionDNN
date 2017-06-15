@@ -31,18 +31,22 @@ def main():
   classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,
                                               hidden_units=[272, 544, 272],
                                               n_classes=8,
-                                              model_dir="/tmp/emotion_model")
-  
+                                              model_dir="/tmp/emotion_model",
+                                              #activation_fn=tf.sigmoid
+                                              )
+
   # Define the training inputs
   def get_train_inputs():
     x = tf.constant(training_set.data)
     y = tf.constant(training_set.target)
 
     return x, y
-  
+
+  training_input_fu = get_train_inputs
+  training_input_fu.shuffle = True
 
   # Fit model.
-  classifier.fit(input_fn=get_train_inputs, steps=12000)
+  classifier.fit(input_fn=get_train_inputs, steps=15000)
 
   # Saving model
   #model_weight = tf.Variable([1,2,3],[272,544,272], dtype=tf.float32, name='weights')
